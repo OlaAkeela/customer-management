@@ -1,7 +1,5 @@
 const createError = require('http-errors');
 const express = require('express')
-const graphqlHTTP = require('express-graphql')
-const graphql = require('graphql')
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -9,8 +7,6 @@ const cors = require('cors')
 require("dotenv").config()
 
 const app = express();
-
-// process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0
 
 app.use(logger('dev'));
 app.use(express.json());

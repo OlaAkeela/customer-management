@@ -10,7 +10,10 @@ const QueryRoot = new graphql.GraphQLObjectType({
     },
     getCustomer: {
       type: Customer,
-      args: { id: { type: new graphql.GraphQLNonNull(graphql.GraphQLString) } },
+      args: {
+        id: {
+          type: new graphql.GraphQLNonNull(graphql.GraphQLString)
+        }},
       resolve: getCustomerGql
     },
   })
@@ -22,21 +25,39 @@ const MutationRoot = new graphql.GraphQLObjectType({
     addCustomer: {
       type: graphql.GraphQLString,
       args: {
-        firstName: { type: new graphql.GraphQLNonNull(graphql.GraphQLString) },
-        lastName: { type: new graphql.GraphQLNonNull(graphql.GraphQLString) },
-        address: { type: new graphql.GraphQLNonNull(graphql.GraphQLString) },
-        status: { type: CustomerStatus },
+        firstName: {
+          type: new graphql.GraphQLNonNull(graphql.GraphQLString)
+        },
+        lastName: {
+          type: new graphql.GraphQLNonNull(graphql.GraphQLString)
+        },
+        address: {
+          type: new graphql.GraphQLNonNull(graphql.GraphQLString)
+        },
+        status: {
+          type: CustomerStatus
+        },
       },
       resolve: addCustomerGql
     },
     editCustomer: {
       type: Customer,
       args: {
-        firstName: { type: new graphql.GraphQLNonNull(graphql.GraphQLString) },
-        lastName: { type: new graphql.GraphQLNonNull(graphql.GraphQLString) },
-        address: { type: new graphql.GraphQLNonNull(graphql.GraphQLString) },
-        status: { type: CustomerStatus },
-        id: { type: new graphql.GraphQLNonNull(graphql.GraphQLString) }
+        firstName: {
+          type: new graphql.GraphQLNonNull(graphql.GraphQLString)
+        },
+        lastName: {
+          type: new graphql.GraphQLNonNull(graphql.GraphQLString)
+        },
+        address: {
+          type: new graphql.GraphQLNonNull(graphql.GraphQLString)
+        },
+        status: {
+          type: CustomerStatus
+        },
+        id: {
+          type: new graphql.GraphQLNonNull(graphql.GraphQLString)
+        }
       },
       resolve: editCustomerGql
     },
@@ -53,19 +74,33 @@ const MutationRoot = new graphql.GraphQLObjectType({
 const Customer = new graphql.GraphQLObjectType({
   name: 'Customer',
   fields: () => ({
-    id: { type: graphql.GraphQLString },
-    firstName: { type: graphql.GraphQLString },
-    lastName: { type: graphql.GraphQLString },
-    address: { type: graphql.GraphQLString },
-    status: { type: graphql.GraphQLString }
+    id: {
+      type: graphql.GraphQLString
+    },
+    firstName: {
+      type: graphql.GraphQLString
+    },
+    lastName: {
+      type: graphql.GraphQLString
+    },
+    address: {
+      type: graphql.GraphQLString
+    },
+    status: {
+      type: graphql.GraphQLString
+    }
   })
 });
 
 const CustomerStatus = new graphql.GraphQLEnumType({
   name: 'CustomerStatus',
   values: {
-    active: { value: 'active' },
-    inactive: { value: 'inactive' }
+    active: {
+      value: 'active'
+    },
+    inactive: {
+      value: 'inactive'
+    }
   }
 });
 
