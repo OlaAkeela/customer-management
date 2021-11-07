@@ -1,23 +1,17 @@
 const graphql = require('graphql')
-const db = require('./knex')
+const { addCustomerGql, editCustomerGql, deleteCustomerGql, getCustomerGql, listCustomersGql } = require('../controllers/customers')
 
 const QueryRoot = new graphql.GraphQLObjectType({
   name: 'Query',
   fields: () => ({
     listCustomers: {
       type: new graphql.GraphQLList(Customer),
-      resolve: async (parent, args, context, resolveInfo) => {
-        return await db('customer')
-      }
+      resolve: listCustomersGql
     },
     getCustomer: {
       type: Customer,
       args: { id: { type: new graphql.GraphQLNonNull(graphql.GraphQLString) } },
-      resolve: async (parent, args, context, resolveInfo) => {
-        console.log('args.id:' , args.id)
-        const result = await db('customer').where('id', args.id);
-        return result.length ? result[0] : {}
-      }
+      resolve: getCustomerGql
     },
   })
 })
@@ -26,21 +20,14 @@ const MutationRoot = new graphql.GraphQLObjectType({
   name: 'Mutation',
   fields: () => ({
     addCustomer: {
-      type: Customer,
+      type: graphql.GraphQLString,
       args: {
         firstName: { type: new graphql.GraphQLNonNull(graphql.GraphQLString) },
         lastName: { type: new graphql.GraphQLNonNull(graphql.GraphQLString) },
         address: { type: new graphql.GraphQLNonNull(graphql.GraphQLString) },
         status: { type: CustomerStatus },
       },
-      resolve: async (parent, args, context, resolveInfo) => {
-        try {
-          await db('customer').insert(args);
-        } catch (err) {
-          console.log('Error: ', err)
-          throw new Error("Failed to insert new customer")
-        }
-      }
+      resolve: addCustomerGql
     },
     editCustomer: {
       type: Customer,
@@ -49,35 +36,16 @@ const MutationRoot = new graphql.GraphQLObjectType({
         lastName: { type: new graphql.GraphQLNonNull(graphql.GraphQLString) },
         address: { type: new graphql.GraphQLNonNull(graphql.GraphQLString) },
         status: { type: CustomerStatus },
+        id: { type: new graphql.GraphQLNonNull(graphql.GraphQLString) }
       },
-      resolve: async (parent, args, context, resolveInfo) => {
-        try {
-          const res = await db('customer').update(args);
-          console.log('res: ', res);
-          return res;
-        } catch (err) {
-          console.log('Error: ', err)
-          throw new Error("Failed to insert new customer")
-        }
-      }
+      resolve: editCustomerGql
     },
     deleteCustomer: {
-      type: Customer,
+      type: graphql.GraphQLBoolean,
       args: {
         id: { type: new graphql.GraphQLNonNull(graphql.GraphQLString) }
       },
-      resolve: async (parent, args, context, resolveInfo) => {
-        try {
-          const result = await db('customer')
-              .where('id', req.params.customer_id)
-              .del();
-          console.log('res: ', result);
-          return result
-        } catch (err) {
-          console.log('Error: ', err)
-          throw new Error("Failed to insert new customer")
-        }
-      }
+      resolve: deleteCustomerGql
     },
   })
 })

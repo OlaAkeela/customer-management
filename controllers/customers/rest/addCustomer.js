@@ -1,16 +1,18 @@
-const db = require('../../db/knex')
+const addCustomer = require('../logic/add');
+
 module.exports = async (req, res, next) => {
   try {
     const validationResult = validateInput(req.body);
     if (!validationResult.isValid) {
       throw validationResult.message
     }
-    await db('customer').insert(req.body);
-    return next(true)
+    const result = await addCustomer(req.body);
+    return next(result);
   } catch (e) {
+    console.log('error: ', e);
     return next({
       status: 400,
-      message: e
+      message: 'Error'
     })
   }
 }
