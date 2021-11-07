@@ -1,0 +1,14 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  customer-management:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - ENV=development
+      - PORT=3000
+      - jwtSecretKey=eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTYzNjAyNjk4MywiaWF0IjoxNjM2MDI2OTgzfQ.IGzciyxI9bD0Df84CJYpMRIT6mKaym20SjwPvPnMzd4
+      - DEV_DB_CONNECTION=postgres://zliryxlitovokb:f346f2417612362fc5a5410a61c0a35deb33c896fa9d75612e2333ded847c73e@ec2-34-249-247-7.eu-west-1.compute.amazonaws.com:5432/ddb48em2vmask7
+volumes:
+  logvolume01: {}
